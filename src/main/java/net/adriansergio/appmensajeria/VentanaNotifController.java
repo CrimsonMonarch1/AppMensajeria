@@ -1,8 +1,9 @@
 package net.adriansergio.appmensajeria;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.TextArea;
 import javafx.stage.WindowEvent;
 
 public class VentanaNotifController {
@@ -11,20 +12,34 @@ public class VentanaNotifController {
     private ScrollPane friendList;
 
     @FXML
-    private ScrollPane notifPanel;
+    private TextArea log;
 
-    private VBox contenido;
+    @FXML
+    private Label friendsCounter;
 
     private CallbackClient cliente;
 
-    @FXML
-    public void initialize(){
-        contenido = new VBox();
-        notifPanel.setContent(contenido);
+    public VentanaNotifController(){
+        log = new TextArea();
+        friendsCounter = new Label("0");
+        friendList = new ScrollPane();
     }
     public void updateNotifPanel(String message){
-        Label label = new Label(message);
-        contenido.getChildren().add(label);
+        //Actualizamos las notificaciones del sistema fuera del hilo de JavaFX, hace falta runLater
+        Platform.runLater(() -> updateNotifications(message));
+    }
+
+    public void updateFriendCounter(Integer number){
+        //Actualizamos las notificaciones del sistema fuera del hilo de JavaFX, hace falta runLater
+        Platform.runLater(() -> updateCounter(number));
+    }
+
+    private void updateNotifications(String message){
+        log.appendText(message + "\n");
+    }
+
+    private void updateCounter(Integer number){
+        friendsCounter.setText(number.toString());
     }
 
     public void handleCloseRequest(WindowEvent event) {

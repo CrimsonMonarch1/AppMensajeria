@@ -2,6 +2,7 @@ package net.adriansergio.appmensajeria;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -22,8 +23,10 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
   public synchronized void conectarse(CallbackClientInterface callbackClientObject, String nombreUsuario) throws RemoteException{
       // store the callback object into the vector
       if (!(usuariosOnline.containsKey(callbackClientObject))) {
-         usuariosOnline.put(callbackClientObject, nombreUsuario);
-         notificarConexion(nombreUsuario);
+          System.out.println("Servidor: " + nombreUsuario + " se ha conectado.");
+          usuariosOnline.put(callbackClientObject, nombreUsuario);
+          usuariosOnline();
+          notificarConexion(nombreUsuario);
     }
   }  
 
@@ -56,9 +59,14 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
 
     private void usuariosOnline() throws RemoteException{
         for (CallbackClientInterface cliente : usuariosOnline.keySet()) {
+            ArrayList<CallbackClientInterface> amigos = new ArrayList<>();
             for (CallbackClientInterface cliente2 : usuariosOnline.keySet()){
                 //Para cada cliente de la lista mandamos la lista con todos los clientes online que no sean él
+                if(!cliente2.equals(cliente)){
+                    amigos.add(cliente2);
+                }
             }
+            cliente.actualizarAmigos(amigos);
         }
     }
 }

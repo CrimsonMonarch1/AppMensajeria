@@ -2,21 +2,37 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.adriansergio.appmensajeria.VentanaNotifController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="679.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="net.adriansergio.appmensajeria.VentanaNotifController">
    <children>
-      <ScrollPane fx:id="friendList" layoutX="487.0" layoutY="65.0" prefHeight="412.0" prefWidth="178.0" />
-      <ScrollPane fx:id="notifPanel" layoutX="14.0" layoutY="65.0" prefHeight="412.0" prefWidth="409.0" />
-      <Label layoutX="14.0" layoutY="26.0" text="Mensajes del sistema">
+      <ScrollPane fx:id="friendList" layoutX="487.0" layoutY="131.0" prefHeight="346.0" prefWidth="178.0" />
+      <Label layoutX="29.0" layoutY="26.0" text="Mensajes del sistema">
          <font>
             <Font name="Ubuntu" size="22.0" />
          </font>
       </Label>
-      <Label layoutX="499.0" layoutY="26.0" text="Lista de amigos">
+      <Label layoutX="493.0" layoutY="26.0" text="Amigos">
          <font>
             <Font name="Ubuntu" size="22.0" />
+         </font>
+      </Label>
+      <TextArea fx:id="log" editable="false" layoutX="20.0" layoutY="65.0" prefHeight="412.0" prefWidth="442.0" />
+      <Label layoutX="493.0" layoutY="53.0" text="Online">
+         <font>
+            <Font name="Ubuntu" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="493.0" layoutY="72.0" text="Offline">
+         <font>
+            <Font name="Ubuntu" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="friendsCounter" layoutX="552.0" layoutY="53.0" text="0">
+         <font>
+            <Font name="Ubuntu" size="16.0" />
          </font>
       </Label>
    </children>

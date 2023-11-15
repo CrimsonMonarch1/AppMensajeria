@@ -14,7 +14,6 @@ public class VentanaLogin extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 600, 450);
         stage.setTitle("Login");
         stage.setScene(scene);
-        VentanaLoginController controller = fxmlLoader.getController();
         stage.show();
     }
 

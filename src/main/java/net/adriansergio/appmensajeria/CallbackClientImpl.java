@@ -2,24 +2,32 @@ package net.adriansergio.appmensajeria;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.concurrent.CountDownLatch;
+import java.util.ArrayList;
 
 
 public class CallbackClientImpl extends UnicastRemoteObject implements CallbackClientInterface {
 
-   private CountDownLatch lock;
+   private final VentanaNotifController controlador;
 
-   private VentanaNotifController controlador;
+   private ArrayList<CallbackClientInterface> amigos;
 
-   public CallbackClientImpl(CountDownLatch lock, VentanaNotifController controlador) throws RemoteException {
+   public CallbackClientImpl(VentanaNotifController controlador) throws RemoteException {
       super();
-      this.lock = lock;
       this.controlador = controlador;
+      amigos = new ArrayList<>();
    }
 
    public void mensajeServidor(String message) {
       System.out.println(message);
-      //this.controlador.updateNotifPanel(message);
+      if(message != null)
+         controlador.updateNotifPanel(message);
+   }
+
+   public void actualizarAmigos(ArrayList<CallbackClientInterface> amigos){
+      if(amigos != null){
+         this.amigos = amigos;
+         this.controlador.updateFriendCounter(this.amigos.size());
+      }
    }
 
    private void mostrarMensaje(String message){
