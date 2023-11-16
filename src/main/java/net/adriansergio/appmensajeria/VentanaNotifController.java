@@ -1,10 +1,14 @@
 package net.adriansergio.appmensajeria;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 import javafx.stage.WindowEvent;
+
+import java.util.HashMap;
 
 public class VentanaNotifController {
 
@@ -34,12 +38,20 @@ public class VentanaNotifController {
         Platform.runLater(() -> updateCounter(number));
     }
 
+    public void updateFriendsList(HashMap<CallbackClientInterface, String> amigos){
+        Platform.runLater(() -> updateFriends(amigos));
+    }
+
     private void updateNotifications(String message){
         log.appendText(message + "\n");
     }
 
     private void updateCounter(Integer number){
         friendsCounter.setText(number.toString());
+    }
+
+    private void updateFriends(HashMap<CallbackClientInterface, String> amigos){
+
     }
 
     public void handleCloseRequest(WindowEvent event) {

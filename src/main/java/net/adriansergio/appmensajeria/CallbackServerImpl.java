@@ -59,14 +59,7 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
 
     private void usuariosOnline() throws RemoteException{
         for (CallbackClientInterface cliente : usuariosOnline.keySet()) {
-            ArrayList<CallbackClientInterface> amigos = new ArrayList<>();
-            for (CallbackClientInterface cliente2 : usuariosOnline.keySet()){
-                //Para cada cliente de la lista mandamos la lista con todos los clientes online que no sean él
-                if(!cliente2.equals(cliente)){
-                    amigos.add(cliente2);
-                }
-            }
-            cliente.actualizarAmigos(amigos);
+            cliente.actualizarAmigos(usuariosOnline);
         }
     }
 }
