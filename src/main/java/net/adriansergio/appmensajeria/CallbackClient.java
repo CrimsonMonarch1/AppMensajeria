@@ -9,16 +9,10 @@ import java.util.concurrent.CountDownLatch;
 public class CallbackClient extends Thread {
 
   private String nombreUsuario;
-  private final VentanaLoginController controladorLogin;
 
-  private CallbackClientInterface callbackObj = null;
-
-  private CallbackServerInterface h = null;
+  private CountDownLatch lock;
 
   private VentanaNotifController controladorNotif;
-  public CallbackClient(VentanaLoginController controlador) {
-    this.controladorLogin = controlador;
-  }
 
   public void run()
   {
@@ -31,17 +25,18 @@ public class CallbackClient extends Thread {
       //El enlace lo he hardcodeado porque en una app real el cliente simplemente se conecta y ya
       String registryURL = "rmi://localhost:6789/callback";
       //Busco el objeto servidor al que conectarme
-      h = (CallbackServerInterface)Naming.lookup(registryURL);
+      CallbackServerInterface h = (CallbackServerInterface)Naming.lookup(registryURL);
       System.out.println(h.bienvenida());
-      CountDownLatch lock = new CountDownLatch(1);
+      lock = new CountDownLatch(1);
       //Creeo objeto cliente para interactuar con el servidor
-      callbackObj = new CallbackClientImpl(lock, controladorNotif);
+      CallbackClientInterface callbackObj = new CallbackClientImpl(controladorNotif);
       //Conectarse al servicio
       h.conectarse(callbackObj, nombreUsuario);
       System.out.println("Cliente: conectado.");
       lock.await();
       h.desconectarse(callbackObj, nombreUsuario);
       System.out.println("Cliente: desconectado.");
+      System.exit(0);
     }
     catch (Exception e) {
       System.out.println("Exception in CallbackClient: " + e);
@@ -59,7 +54,7 @@ public class CallbackClient extends Thread {
 
   public void desconectar(){
     try {
-      h.desconectarse(callbackObj, nombreUsuario);
+      lock.countDown();
     }
     catch (Exception e){
       e.printStackTrace();

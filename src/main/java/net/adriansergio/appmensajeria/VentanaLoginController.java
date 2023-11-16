@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 
@@ -30,12 +29,11 @@ public class VentanaLoginController {
 
     @FXML
     public void initialize(){
-        cliente = new CallbackClient(this);
+        cliente = new CallbackClient();
     }
 
     @FXML
     void exit(ActionEvent event) {
-
     }
 
     @FXML
@@ -43,7 +41,7 @@ public class VentanaLoginController {
         if(usernameTx.getText() != null){
             try {
                 //Cargamos el archivo xml de la segunda ventana
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("ventana_notif.fxml"));
+                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_notif.fxml"));
                 Parent root = loader.load();
 
                 //Creamos un stage nuevo
@@ -58,7 +56,7 @@ public class VentanaLoginController {
                 usernameTx.setText(null);
 
                 //Creamos un nuevo controller para pasárselo al cliente
-                VentanaNotifController controladorNotif = new VentanaNotifController();
+                VentanaNotifController controladorNotif = loader.getController();
 
                 controladorNotif.setCliente(cliente);
 
