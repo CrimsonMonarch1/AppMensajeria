@@ -51,7 +51,12 @@ public class VentanaNotifController {
     }
 
     private void updateFriends(HashMap<CallbackClientInterface, String> amigos){
-
+        VBox caja = new VBox();
+        this.friendList.setContent(caja);
+        for(CallbackClientInterface cliente : amigos.keySet()){
+            Button button = new Button(amigos.get(cliente));
+            caja.getChildren().add(button);
+        }
     }
 
     public void handleCloseRequest(WindowEvent event) {

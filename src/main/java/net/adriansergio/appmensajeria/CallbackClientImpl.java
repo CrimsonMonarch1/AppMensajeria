@@ -27,6 +27,7 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
       if(amigos != null){
          this.amigos = amigos;
          this.controlador.updateFriendCounter(this.amigos.size() - 1);
+         this.controlador.updateFriendsList(amigos);
       }
    }
 
