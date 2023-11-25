@@ -10,9 +10,20 @@ public class CallbackClient extends Thread {
 
   private String nombreUsuario;
 
+  private String password;
+
+  private CallbackClientInterface callbackObj;
+
+  private CallbackServerInterface h;
+
   private CountDownLatch lock;
 
-  private VentanaNotifController controladorNotif;
+  private VentanaNotifController controladorMenu;
+
+  public CallbackClient(String nombreUsuario, String password){
+    this.nombreUsuario = nombreUsuario;
+    this.password = password;
+  }
 
   public void run()
   {
@@ -25,11 +36,12 @@ public class CallbackClient extends Thread {
       //El enlace lo he hardcodeado porque en una app real el cliente simplemente se conecta y ya
       String registryURL = "rmi://localhost:6789/callback";
       //Busco el objeto servidor al que conectarme
-      CallbackServerInterface h = (CallbackServerInterface)Naming.lookup(registryURL);
+      h = (CallbackServerInterface)Naming.lookup(registryURL);
       System.out.println(h.bienvenida());
       lock = new CountDownLatch(1);
       //Creeo objeto cliente para interactuar con el servidor
-      CallbackClientInterface callbackObj = new CallbackClientImpl(controladorNotif);
+      callbackObj = new CallbackClientImpl(controladorMenu, nombreUsuario);
+      controladorMenu.setupCliente(this);
       //Conectarse al servicio
       h.conectarse(callbackObj, nombreUsuario);
       System.out.println("Cliente: conectado.");
@@ -44,14 +56,6 @@ public class CallbackClient extends Thread {
     }
   }
 
-  public void setNombreUsuario(String nombreUsuario){
-    this.nombreUsuario = nombreUsuario;
-  }
-
-  public void setControladorNotificaciones(VentanaNotifController controladorNotif){
-    this.controladorNotif = controladorNotif;
-  }
-
   public void desconectar(){
     try {
       lock.countDown();
@@ -59,5 +63,13 @@ public class CallbackClient extends Thread {
     catch (Exception e){
       e.printStackTrace();
     }
+  }
+
+  public CallbackClientImpl getCallbackObj(){
+    return (CallbackClientImpl)this.callbackObj;
+  }
+
+  public void setControladorMenu(VentanaNotifController controladorMenu) {
+    this.controladorMenu = controladorMenu;
   }
 }

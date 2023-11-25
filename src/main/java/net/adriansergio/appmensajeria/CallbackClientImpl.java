@@ -7,27 +7,40 @@ import java.util.HashMap;
 
 public class CallbackClientImpl extends UnicastRemoteObject implements CallbackClientInterface {
 
-   private final VentanaNotifController controlador;
+   private HashMap<String, CallbackClientInterface> amigosOnline;
+   private HashMap<String, CallbackClientInterface> amigos;
 
-   private HashMap<CallbackClientInterface, String> amigos;
+   private VentanaNotifController controladorMenu;
 
-   public CallbackClientImpl(VentanaNotifController controlador) throws RemoteException {
+   private HashMap<String, VentanaChatController> ventanasChat;
+
+   private String username;
+
+   public CallbackClientImpl(VentanaNotifController controladorMenu, String username) throws RemoteException {
       super();
-      this.controlador = controlador;
       amigos = new HashMap<>();
+      amigosOnline = new HashMap<>();
+      this.controladorMenu = controladorMenu;
+      this.username = username;
+      ventanasChat = new HashMap<>();
    }
 
    public void mensajeServidor(String message) {
       System.out.println(message);
-      if(message != null)
-         controlador.updateNotifPanel(message);
+      controladorMenu.updateNotifPanel(message);
    }
 
-   public void actualizarAmigos(HashMap<CallbackClientInterface, String> amigos){
-      if(amigos != null){
-         this.amigos = amigos;
-         this.controlador.updateFriendCounter(this.amigos.size() - 1);
-         this.controlador.updateFriendsList(amigos);
+   public void addOnlineFriend(String username, CallbackClientInterface amigo) throws java.rmi.RemoteException{
+      amigosOnline.put(username, amigo);
+      controladorMenu.updateFriendsList(username, true);
+      controladorMenu.updateFriendCounter(amigosOnline.size());
+   }
+
+   public void removeOnlineFriend(String username, CallbackClientInterface amigo) throws java.rmi.RemoteException{
+      if(amigosOnline.get(username) != null){
+         amigosOnline.remove(username);
+         controladorMenu.updateFriendCounter(amigosOnline.size());
+         controladorMenu.updateFriendsList(username, false);
       }
    }
 
@@ -35,6 +48,26 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
 
    }
 
-   public void mensajeCliente(String message){}
+   public void addChat(String amigo, VentanaChatController controlador){
+      ventanasChat.put(amigo, controlador);
+   }
+
+   public CallbackClientInterface obtenerAmigo(String username){
+      return this.amigosOnline.get(username);
+   }
+
+   public void mensajeCliente(String sender, String message) throws java.rmi.RemoteException {
+      System.out.println(message);
+      updateChat(sender, message);
+   }
+
+   public void updateChat(String amigoName, String message){
+      if(ventanasChat.get(amigoName) != null)
+         ventanasChat.get(amigoName).updateChat(amigoName, message);
+   }
+
+   public String getUsername(){
+      return this.username;
+   }
 
 }

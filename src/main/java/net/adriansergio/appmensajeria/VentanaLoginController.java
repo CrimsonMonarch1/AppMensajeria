@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -20,25 +21,28 @@ public class VentanaLoginController {
     private Button loginButton;
 
     @FXML
-    private TextField passwordTx;
+    private Button registerButton;
+
+    @FXML
+    private PasswordField passwordTx;
 
     @FXML
     private TextField usernameTx;
 
     private CallbackClient cliente;
-
-    @FXML
-    public void initialize(){
-        cliente = new CallbackClient();
-    }
+    private CallbackClientImpl clientObj;
 
     @FXML
     void exit(ActionEvent event) {
     }
 
+    /*
+    * La función de login crea una nueva ventana para el menú principal e inicia el cliente, luego esconde la ventana actual
+    *
+    * */
     @FXML
     void login(ActionEvent event) {
-        if(usernameTx.getText() != null){
+        if(cliente != null){
             try {
                 //Cargamos el archivo xml de la segunda ventana
                 FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_notif.fxml"));
@@ -47,34 +51,46 @@ public class VentanaLoginController {
                 //Creamos un stage nuevo
                 Stage secondStage = new Stage();
                 secondStage.setScene(new Scene(root, 700, 500));
-                secondStage.setTitle("Menu principal");
-
-                //Mandamos el username al cliente
-                cliente.setNombreUsuario(usernameTx.getText());
+                if(usernameTx != null)
+                    secondStage.setTitle("Menu principal - " + usernameTx.getText());
 
                 //Reseteamos la caja
                 usernameTx.setText(null);
 
-                //Creamos un nuevo controller para pasárselo al cliente
-                VentanaNotifController controladorNotif = loader.getController();
+                //Creamos un nuevo controller y le pasamos el cliente
+                VentanaNotifController controladorMenu= loader.getController();
 
-                controladorNotif.setCliente(cliente);
+                //Gestionar qué pasa cuando apagamos la ventana
+                secondStage.setOnCloseRequest(CloseEvent -> controladorMenu.handleCloseRequest(CloseEvent));
 
-                secondStage.setOnCloseRequest(CloseEvent -> controladorNotif.handleCloseRequest(CloseEvent));
-
-                //Le pasamos el nuevo controller también
-                cliente.setControladorNotificaciones(controladorNotif);
+                //Pasamos el controlador del menu principal al cliente
+                cliente.setControladorMenu(controladorMenu);
 
                 //El cliente comienza
                 cliente.start();
 
-                //Lo mostramos
+                //Mostramos el menu principal
                 secondStage.show();
+
+                //Escondemos la ventana actual
                 ((Node)(event.getSource())).getScene().getWindow().hide();
             }
             catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    /*
+     * La función de register crea un nuevo cliente y lo registra en la base de datos del servidor
+     * Sin un registro, el login no funciona, porque no habría cliente
+     * */
+    @FXML
+    void register(ActionEvent event){
+        if(usernameTx.getText() != null && passwordTx.getText() != null){
+            cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText());
+            usernameTx.setText(null);
+            passwordTx.setText(null);
         }
     }
 }
