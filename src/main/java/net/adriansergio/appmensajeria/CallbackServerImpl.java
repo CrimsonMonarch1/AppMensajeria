@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class CallbackServerImpl extends UnicastRemoteObject implements CallbackServerInterface {
 
-   private HashMap<CallbackClientInterface, String> usuariosOnline;
+   private HashMap<String, CallbackClientInterface> usuariosOnline;
 
    public CallbackServerImpl() throws RemoteException {
       super( );
@@ -22,18 +22,19 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
 
   public synchronized void conectarse(CallbackClientInterface callbackClientObject, String nombreUsuario) throws RemoteException{
       // store the callback object into the vector
-      if (!(usuariosOnline.containsKey(callbackClientObject))) {
+      if (!(usuariosOnline.containsKey(nombreUsuario))) {
           System.out.println("Servidor: " + nombreUsuario + " se ha conectado.");
-          usuariosOnline.put(callbackClientObject, nombreUsuario);
-          usuariosOnline();
+          usuariosOnline.put(nombreUsuario, callbackClientObject);
           notificarConexion(nombreUsuario);
+          addOnlineFriends(nombreUsuario);
     }
   }  
 
   public synchronized void desconectarse(CallbackClientInterface callbackClientObject, String nombreUsuario) throws RemoteException{
-    if (usuariosOnline.containsKey(callbackClientObject)) {
+    if (usuariosOnline.containsKey(nombreUsuario)) {
         System.out.println("Servidor: " + nombreUsuario + " se ha desconectado.");
-        usuariosOnline.remove(callbackClientObject);
+        removeOnlineFriends(nombreUsuario);
+        usuariosOnline.remove(nombreUsuario);
         notificarDesconexion(nombreUsuario);
     } else {
        System.out.println("Servidor: el cliente que se quiso desconectar no estaba conectado en primer lugar.");
@@ -42,24 +43,42 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
 
   private void notificarConexion(String nombreUsuario) throws RemoteException{
     //Para cada cliente lo notificamos del que está online
-      for (CallbackClientInterface cliente : usuariosOnline.keySet()) {
+      for (String username : usuariosOnline.keySet()) {
           //Le mandamos un mensaje si no es el mismo cliente
-          if (!usuariosOnline.get(cliente).equals(nombreUsuario))
-              cliente.mensajeServidor(nombreUsuario + " se ha conectado.");
+          if (!username.equals(nombreUsuario)) {
+              usuariosOnline.get(username).mensajeServidor(nombreUsuario + " se ha conectado.");
+          }
       }
   }
 
     private void notificarDesconexion(String nombreUsuario) throws RemoteException{
         //Para cada cliente lo notificamos del que está online
-            for (CallbackClientInterface cliente : usuariosOnline.keySet()) {
-                //Le mandamos un mensaje si no es el mismo cliente
-                cliente.mensajeServidor(nombreUsuario + " se ha desconectado.");
-            }
+        for (String username : usuariosOnline.keySet()) {
+            //Le mandamos un mensaje si no es el mismo cliente
+            usuariosOnline.get(username).mensajeServidor(nombreUsuario + " se ha desconectado.");
+        }
     }
 
-    private void usuariosOnline() throws RemoteException{
-        for (CallbackClientInterface cliente : usuariosOnline.keySet()) {
-            cliente.actualizarAmigos(usuariosOnline);
+    private void addOnlineFriends(String nombreUsuario) throws RemoteException{
+       //Pasamos por todos los clientes
+        for (String username : usuariosOnline.keySet()) {
+            //Si el cliente es diferente de si mismo, se añade como amigo
+            if (!username.equals(nombreUsuario)) {
+                //Cada cliente añade al cliente actual y el cliente actual añade a cada cliente como amigos
+                usuariosOnline.get(nombreUsuario).addOnlineFriend(username, usuariosOnline.get(username));
+                usuariosOnline.get(username).addOnlineFriend(nombreUsuario, usuariosOnline.get(nombreUsuario));
+            }
+        }
+    }
+
+    private void removeOnlineFriends(String nombreUsuario) throws RemoteException{
+        //Pasamos por todos los clientes
+        for (String username : usuariosOnline.keySet()) {
+            //Hay que quitar al cliente que se quiere desconectar de las listas de amigos online de todos los clientes
+            if (!username.equals(nombreUsuario)) {
+                //Cada cliente elimina al que se acaba de desconectar
+                usuariosOnline.get(username).removeOnlineFriend(nombreUsuario, usuariosOnline.get(nombreUsuario));
+            }
         }
     }
 }
