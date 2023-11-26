@@ -1,0 +1,34 @@
+create table Usuarios(
+nome varchar not null,
+contrasinal varchar not null,
+primary key (nome, contrasinal)
+);
+
+insert into usuarios (nome, contrasinal) values ('sergio', 'sergio');
+insert into usuarios (nome, contrasinal) values ('adrian', 'adrian');
+
+select *
+from usuarios u ;
+
+create table Amigos(
+nome1 varchar not null,
+contrasinal1 varchar not null,
+nome2 varchar not null,
+contrasinal2 varchar not null,
+conversacion varchar,
+foreign key (nome1,contrasinal1) references usuarios(nome,contrasinal),
+foreign key (nome2,contrasinal2) references usuarios(nome,contrasinal),
+primary key (nome1, nome2)
+);
+
+insert into amigos (nome1, contrasinal1, nome2, contrasinal2) values ('sergio', 'sergio', 'adrian','adrian');
+
+select nome1,nome2
+from amigos a ;
+
+update amigos
+set conversacion='como estas'
+where nome1='sergio' and nome2 = 'adrian';
+
+select *
+from amigos a ;
