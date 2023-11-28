@@ -20,15 +20,14 @@ public class CallbackClient extends Thread {
 
   private VentanaNotifController controladorMenu;
 
-  public CallbackClient(String nombreUsuario, String password){
+  private VentanaLoginController controladorLogin;
+
+  public CallbackClient(String nombreUsuario, String password, VentanaLoginController controladorLogin){
     this.nombreUsuario = nombreUsuario;
     this.password = password;
-  }
-
-  public void run()
-  {
+    this.controladorLogin= controladorLogin;
     try {
-      int RMIPort;         
+      int RMIPort;
       String hostName;
       //Lector de input
       InputStreamReader is = new InputStreamReader(System.in);
@@ -37,18 +36,36 @@ public class CallbackClient extends Thread {
       String registryURL = "rmi://localhost:6789/callback";
       //Busco el objeto servidor al que conectarme
       h = (CallbackServerInterface)Naming.lookup(registryURL);
-      System.out.println(h.bienvenida());
-      lock = new CountDownLatch(1);
-      //Creeo objeto cliente para interactuar con el servidor
-      callbackObj = new CallbackClientImpl(controladorMenu, nombreUsuario);
-      controladorMenu.setupCliente(this);
-      //Conectarse al servicio
-      h.conectarse(callbackObj, nombreUsuario);
-      System.out.println("Cliente: conectado.");
-      lock.await();
-      h.desconectarse(callbackObj, nombreUsuario);
-      System.out.println("Cliente: desconectado.");
-      System.exit(0);
+
+      if(!h.introducirUsuarios(nombreUsuario, password)){
+        System.out.println("Error");
+        //Ventanita error regitro
+        controladorLogin.ventanaError("Error de registro.");
+      }
+    }
+    catch (Exception e) {
+      System.out.println("Exception in CallbackClient: " + e);
+      e.printStackTrace();
+    }
+
+  }
+
+  public void run()
+  {
+    try {
+        System.out.println(h.bienvenida());
+        lock = new CountDownLatch(1);
+        //Creeo objeto cliente para interactuar con el servidor
+        callbackObj = new CallbackClientImpl(controladorMenu, nombreUsuario);
+        controladorMenu.setupCliente(this);
+        //Conectarse al servicio
+        h.conectarse(callbackObj, nombreUsuario);
+        System.out.println("Cliente: conectado.");
+        lock.await();
+        h.desconectarse(callbackObj, nombreUsuario);
+        System.out.println("Cliente: desconectado.");
+        System.exit(0);
+
     }
     catch (Exception e) {
       System.out.println("Exception in CallbackClient: " + e);

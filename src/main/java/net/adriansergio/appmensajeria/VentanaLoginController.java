@@ -5,10 +5,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.application.Platform;
 
 import java.io.IOException;
 
@@ -88,9 +90,21 @@ public class VentanaLoginController {
     @FXML
     void register(ActionEvent event){
         if(usernameTx.getText() != null && passwordTx.getText() != null){
-            cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText());
+
+            cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this);
             usernameTx.setText(null);
             passwordTx.setText(null);
         }
+    }
+
+    public void ventanaError(String mensaje) {
+        Platform.runLater(()->{
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Error");
+            alerta.setHeaderText(null);
+            alerta.setContentText(mensaje);
+
+            alerta.showAndWait();
+        });
     }
 }
