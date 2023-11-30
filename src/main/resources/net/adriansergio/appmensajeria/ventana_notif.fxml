@@ -6,33 +6,36 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="679.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="net.adriansergio.appmensajeria.VentanaNotifController">
+<Pane fx:id="panel_notif" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="679.0" stylesheets="@pane_notif.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.adriansergio.appmensajeria.VentanaNotifController">
    <children>
-      <ScrollPane fx:id="friendList" layoutX="487.0" layoutY="131.0" prefHeight="346.0" prefWidth="178.0" />
-      <Label layoutX="29.0" layoutY="26.0" text="Mensajes del sistema">
+      <ScrollPane fx:id="friendList" layoutX="480.0" layoutY="118.0" opacity="0.2" prefHeight="358.0" prefWidth="178.0" stylesheets="@scroll_pane.css" />
+      <Label layoutX="20.0" layoutY="12.0" prefHeight="56.0" prefWidth="231.0" text="Mensajes del sistema" textFill="WHITE">
          <font>
-            <Font name="Ubuntu" size="22.0" />
+            <Font name="Timmana Regular" size="26.0" />
          </font>
       </Label>
-      <Label layoutX="493.0" layoutY="26.0" text="Amigos">
+      <Label layoutX="487.0" text="Amigos">
          <font>
-            <Font name="Ubuntu" size="22.0" />
+            <Font name="Timmana Regular" size="30.0" />
          </font>
       </Label>
-      <TextArea fx:id="log" editable="false" layoutX="20.0" layoutY="65.0" prefHeight="412.0" prefWidth="442.0" />
-      <Label layoutX="493.0" layoutY="53.0" text="Online">
+      <TextArea fx:id="log" editable="false" layoutX="20.0" layoutY="65.0" opacity="0.7" prefHeight="412.0" prefWidth="442.0" stylesheets="@text_area_notif.css">
          <font>
-            <Font name="Ubuntu" size="16.0" />
+            <Font name="Timmana Regular" size="15.0" />
+         </font></TextArea>
+      <Label layoutX="487.0" layoutY="47.0" text="Online" textFill="#000000ed">
+         <font>
+            <Font name="Timmana Regular" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="493.0" layoutY="72.0" text="Offline">
+      <Label layoutX="487.0" layoutY="74.0" text="Offline">
          <font>
-            <Font name="Ubuntu" size="16.0" />
+            <Font name="Timmana Regular" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="friendsCounter" layoutX="552.0" layoutY="53.0" text="0">
+      <Label fx:id="friendsCounter" layoutX="570.0" layoutY="41.0" text="0">
          <font>
-            <Font name="Ubuntu" size="16.0" />
+            <Font name="Timmana Regular" size="20.0" />
          </font>
       </Label>
    </children>
