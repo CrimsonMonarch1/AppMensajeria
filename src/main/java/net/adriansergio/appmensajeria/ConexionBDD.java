@@ -1,14 +1,12 @@
 package net.adriansergio.appmensajeria;
 
 import java.sql.*;
-import java.io.IOException;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Properties;
+
 public class ConexionBDD {
-    String url = "jdbc:postgresql://localhost:5432/p2p";
-    String usuario = "sergio";
-    String contrasena = "sergio";
+    String url = "jdbc:postgresql://localhost:5432/messageapp_db";
+    String usuario = "adrian";
+    String contrasena = "Asrieldremurr23";
 
     public Connection conexion;
 

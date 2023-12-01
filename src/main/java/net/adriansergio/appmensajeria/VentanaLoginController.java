@@ -2,7 +2,6 @@ package net.adriansergio.appmensajeria;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -42,7 +41,6 @@ public class VentanaLoginController {
     private CallbackClient cliente;
     private CallbackClientImpl clientObj;
 
-
     public void initialize(){
         cargarImagen();
     }
@@ -76,11 +74,8 @@ public class VentanaLoginController {
     @FXML
     void login(ActionEvent event) {
         if(usernameTx.getText() != null && passwordTx.getText() != null){
-
                 cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this, true);
-
                 passwordTx.setText(null);
-
         }
         else{
             ventanaError("Falta usuario o contraseña");
@@ -89,7 +84,6 @@ public class VentanaLoginController {
 
     void logear(){
         try {
-
             //Cargamos el archivo xml de la segunda ventana
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_notif.fxml"));
             Parent root = loader.load();
@@ -128,21 +122,26 @@ public class VentanaLoginController {
 
     /*
      * La función de register crea un nuevo cliente y lo registra en la base de datos del servidor
-     * Sin un registro, el login no funciona, porque no habría cliente
+     * Sin un registro, el login no funciona, porque no habría cliente correspondiente con los datos de Login
      * */
     @FXML
     void register(ActionEvent event){
-        if(usernameTx.getText() != null && passwordTx.getText() != null){
-
+        if(usernameTx.getText() != null && passwordTx.getText().length() > 4){
             cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this);
             usernameTx.setText(null);
             passwordTx.setText(null);
         }
+        else if (usernameTx.getText()==null){
+            ventanaError("Se debe introducir nombre de usuario");
+        }
         else{
-            ventanaError("No se ha introducito usuario o contraseña.");
+            ventanaError("Contraseña no válida. Mínimo 5 caracteres.");
         }
     }
 
+    /*
+    * Abre una nueva ventana indicando algún error
+    * */
     public void ventanaError(String mensaje) {
         Platform.runLater(()->{
             usernameTx.setText(null);
