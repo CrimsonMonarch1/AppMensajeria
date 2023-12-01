@@ -87,7 +87,7 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
         }
     }
 
-    boolean inicioSesion(String usuario, String cont) throws RemoteException{
+    public boolean inicioSesion(String usuario, String cont) throws RemoteException{
 
         try {
             // Consulta SQL
@@ -111,7 +111,7 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
         return false;
     }
 
-    boolean usuarioNoExistente(String usuario) throws RemoteException{
+    public boolean usuarioNoExistente(String usuario) throws RemoteException{
 
         try {
             // Consulta SQL
@@ -135,7 +135,8 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
         return true;
     }
     public boolean introducirUsuarios(String nome, String contrasinal) throws RemoteException, SQLException{
-        if(usuarioNoExistente(nome)) {
+        if(usuarioNoExistente(nome) ){
+            System.out.println("contraseña:'"+contrasinal+"'");
             // Consulta SQL para insertar un nuevo usuario
             String consultaSQL = "INSERT INTO usuarios (nome, contrasinal) VALUES (?, ?)";
 

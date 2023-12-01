@@ -16,4 +16,7 @@ public interface CallbackServerInterface extends Remote {
   public void desconectarse(CallbackClientInterface callbackClientObject, String nombreUsuario) throws RemoteException;
 
   public boolean introducirUsuarios(String nome, String contrasinal) throws RemoteException, SQLException;
+  public boolean inicioSesion(String usuario, String cont) throws RemoteException;
+
+  public boolean usuarioNoExistente(String usuario) throws RemoteException;
 }

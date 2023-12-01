@@ -44,12 +44,25 @@ public class VentanaLoginController {
     * */
     @FXML
     void login(ActionEvent event) {
-        if(cliente != null){
-            try {
-                //Cargamos el archivo xml de la segunda ventana
-                FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_notif.fxml"));
-                Parent root = loader.load();
+        if(usernameTx.getText() != null && passwordTx.getText() != null){
 
+                cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this, true);
+
+                passwordTx.setText(null);
+
+        }
+        else{
+            ventanaError("Falta usuario o contraseña");
+        }
+    }
+
+    void logear(){
+        try {
+
+            //Cargamos el archivo xml de la segunda ventana
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_notif.fxml"));
+            Parent root = loader.load();
+            Platform.runLater(()->{
                 //Creamos un stage nuevo
                 Stage secondStage = new Stage();
                 secondStage.setScene(new Scene(root, 700, 500));
@@ -58,7 +71,6 @@ public class VentanaLoginController {
 
                 //Reseteamos la caja
                 usernameTx.setText(null);
-
                 //Creamos un nuevo controller y le pasamos el cliente
                 VentanaNotifController controladorMenu= loader.getController();
 
@@ -68,18 +80,18 @@ public class VentanaLoginController {
                 //Pasamos el controlador del menu principal al cliente
                 cliente.setControladorMenu(controladorMenu);
 
-                //El cliente comienza
                 cliente.start();
 
                 //Mostramos el menu principal
                 secondStage.show();
 
-                //Escondemos la ventana actual
-                ((Node)(event.getSource())).getScene().getWindow().hide();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
+            });
+
+            //Escondemos la ventana actual
+            //((Node)(event.getSource())).getScene().getWindow().hide();---------------------------------------------------
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -95,12 +107,16 @@ public class VentanaLoginController {
             usernameTx.setText(null);
             passwordTx.setText(null);
         }
+        else{
+            ventanaError("No se ha introducito usuario o contraseña.");
+        }
     }
 
     public void ventanaError(String mensaje) {
         Platform.runLater(()->{
+            usernameTx.setText(null);
+            passwordTx.setText(null);
             Alert alerta = new Alert(Alert.AlertType.ERROR);
-            alerta.setTitle("Error");
             alerta.setHeaderText(null);
             alerta.setContentText(mensaje);
 
