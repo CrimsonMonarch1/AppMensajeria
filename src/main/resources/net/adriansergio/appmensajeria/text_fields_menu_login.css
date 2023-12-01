@@ -1,0 +1,21 @@
+/* Define a style for the normal state of the text field */
+.text-field {
+    -fx-background-color: rgba(169, 169, 169, 0.5); /* Semi-transparent greyish background */
+    -fx-background-radius: 5; /* Adjust the radius as needed for rounded corners */
+}
+
+/* Define a style for the hovered and focused states of the text field */
+.text-field:hover,
+.text-field:focused {
+    -fx-background-color: rgba(169, 169, 169, 1.0); /* Opaque greyish background */
+}
+
+/* Define a style for the text inside the text field */
+.text-field .text {
+    -fx-fill: black; /* Change the text color as needed */
+}
+
+/* Define a style for the tooltip when hovering */
+.text-field:hover .tooltip .text {
+    -fx-fill: white; /* Change the tooltip text color on hover to white */
+}

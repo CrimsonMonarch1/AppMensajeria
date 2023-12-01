@@ -7,27 +7,47 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="net.adriansergio.appmensajeria.VentanaLoginController">
+<Pane fx:id="panel_login" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="590.0" prefWidth="854.0" stylesheets="@pane.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.adriansergio.appmensajeria.VentanaLoginController">
    <children>
-      <Button fx:id="loginButton" layoutX="161.0" layoutY="271.0" mnemonicParsing="false" onAction="#login" text="Login" />
-      <TextField fx:id="usernameTx" layoutX="215.0" layoutY="138.0" prefHeight="24.0" prefWidth="273.0" promptText="Introduzca tu nombre de usuario..." />
-      <Text layoutX="64.0" layoutY="154.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de usuario">
+      <Button fx:id="loginButton" layoutX="159.0" layoutY="427.0" mnemonicParsing="false" onAction="#login" stylesheets="@boton_menu_login.css" text="Login">
          <font>
-            <Font name="Ubuntu" size="16.0" />
+            <Font name="Timmana Regular" size="25.0" />
+         </font></Button>
+      <TextField fx:id="usernameTx" layoutX="341.0" layoutY="219.0" prefHeight="49.0" prefWidth="379.0" promptText="Introduzca tu nombre de usuario..." stylesheets="@text_fields_menu_login.css">
+         <font>
+            <Font name="Timmana Regular" size="17.0" />
+         </font></TextField>
+      <Text fill="WHITE" layoutX="123.0" layoutY="249.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de usuario">
+         <font>
+            <Font name="Timmana Regular" size="25.0" />
          </font>
       </Text>
-      <Text layoutX="145.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido a MessageApp">
+      <Text fill="WHITE" layoutX="222.0" layoutY="89.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido a LeagueChat">
          <font>
-            <Font name="Ubuntu" size="26.0" />
+            <Font name="Timmana Regular" size="39.0" />
          </font>
       </Text>
-      <Text layoutX="91.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Contraseña">
+      <Text fill="WHITE" layoutX="169.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password">
          <font>
-            <Font name="Ubuntu" size="16.0" />
+            <Font name="Timmana Regular" size="25.0" />
          </font>
       </Text>
-      <Button fx:id="exitButton" layoutX="392.0" layoutY="271.0" mnemonicParsing="false" onAction="#exit" text="Salir" />
-      <Button fx:id="registerButton" layoutX="259.0" layoutY="271.0" mnemonicParsing="false" onAction="#register" text="Registrarse" />
-      <PasswordField fx:id="passwordTx" layoutX="215.0" layoutY="207.0" prefHeight="24.0" prefWidth="273.0" promptText="Introduzca su contraseña..." />
+      <Button fx:id="exitButton" layoutX="614.0" layoutY="427.0" mnemonicParsing="false" onAction="#exit" stylesheets="@boton_menu_login.css" text="Salir">
+         <font>
+            <Font name="Timmana Regular" size="25.0" />
+         </font></Button>
+      <Button fx:id="registerButton" layoutX="355.0" layoutY="427.0" mnemonicParsing="false" onAction="#register" stylesheets="@boton_menu_login.css" text="Registrarse">
+         <font>
+            <Font name="Timmana Regular" size="25.0" />
+         </font></Button>
+      <PasswordField fx:id="passwordTx" layoutX="341.0" layoutY="334.0" prefHeight="48.0" prefWidth="379.0" promptText="Introduzca su contraseña..." stylesheets="@text_fields_menu_login.css">
+         <font>
+            <Font name="Timmana Regular" size="17.0" />
+         </font></PasswordField>
+      <Text fill="WHITE" layoutX="169.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="La mayor plataforma de chatting del League of Legends">
+         <font>
+            <Font name="Timmana Regular" size="22.0" />
+         </font>
+      </Text>
    </children>
 </Pane>

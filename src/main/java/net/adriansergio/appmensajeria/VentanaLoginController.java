@@ -9,10 +9,13 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.application.Platform;
 
 import java.io.IOException;
+import java.util.Random;
 
 public class VentanaLoginController {
 
@@ -31,8 +34,36 @@ public class VentanaLoginController {
     @FXML
     private TextField usernameTx;
 
+    @FXML
+    private Pane panel_login;
+
+    private Image backgroundImage;
+
     private CallbackClient cliente;
     private CallbackClientImpl clientObj;
+
+
+    public void initialize(){
+        cargarImagen();
+    }
+
+    private void cargarImagen(){
+        try {
+            String[] imagenes = {"blood_moon_yasuo.png", "championship_zed.png", "cosmic_paladin_nautilus.jpeg", "cosmic_paladin_sion.jpeg",
+                    "gwen_star_guardian_2.jpeg", "immortal_journey_kayle.jpeg", "immortal_journey_soraka.jpeg",
+                    "project_zed.jpg", "coven_akali.jpeg", "project_fiora.png", "cosmic_bel_veth.jpeg", "winterblessed_thresh.jpeg", "crystalis_motus_ashe.jpeg"};
+            Random generador = new Random();
+            int imag_index = generador.nextInt(imagenes.length);
+            String imagen = imagenes[imag_index];
+            String path = "/net/adriansergio/appmensajeria/" + imagen;
+            backgroundImage = new Image(path);
+            panel_login.setStyle("-fx-background-image: url('" + backgroundImage.getUrl() + "');");
+        }
+        catch (Exception e){
+            System.out.println("Error al cargar imagen de fondo");
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void exit(ActionEvent event) {

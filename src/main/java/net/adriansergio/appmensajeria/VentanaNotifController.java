@@ -11,11 +11,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.util.Iterator;
+import java.util.Random;
 
 public class VentanaNotifController {
 
@@ -28,6 +31,9 @@ public class VentanaNotifController {
 
     @FXML
     private Label friendsCounter;
+
+    @FXML
+    private Pane panel_notif;
 
     private CallbackClient cliente;
 
@@ -90,6 +96,9 @@ public class VentanaNotifController {
                     openChatWindow(username, clientObj.obtenerAmigo(username));
                 }
             });
+            button.getStylesheets().add(getClass().getResource("friend_button.css").toExternalForm());
+
+
             caja.getChildren().add(button);
         }
         else{
@@ -115,12 +124,13 @@ public class VentanaNotifController {
 
             //Creamos un stage nuevo
             Stage chatStage = new Stage();
-            chatStage.setScene(new Scene(root, 500, 700));
+            chatStage.setScene(new Scene(root, 504, 608));
             chatStage.setTitle("Chat con " + amigoName);
 
             //Creamos un nuevo controller y le pasamos el cliente
             VentanaChatController controladorChat= loader.getController();
             controladorChat.setupChat(clientObj, amigo, amigoName);
+            chatStage.setOnCloseRequest(CloseEvent -> controladorChat.handleCloseRequest(CloseEvent, amigoName));
 
             //Mostramos el menu principal
             chatStage.show();

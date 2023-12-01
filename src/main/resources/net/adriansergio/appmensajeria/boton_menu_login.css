@@ -1,0 +1,24 @@
+/* Define a style for the normal state of the button */
+.button {
+    -fx-background-color: rgba(0, 0, 0, 0.8); /* Black background with 80% transparency */
+    -fx-text-fill: white; /* White text color */
+    -fx-background-radius: 0; /* Set background radius to 0 to remove rounded corners */
+    -fx-cursor: hand; /* Optional: Change cursor on hover to indicate interactivity */
+    -fx-transition: all 0.2s; /* Optional: Add a transition for a smooth effect */
+}
+
+/* Define a style for the hovered state of the button */
+.button:hover {
+    -fx-background-color: #790707; /* Change background color on hover to #790707 */
+    -fx-text-fill: black; /* Change text color on hover to black */
+    -fx-background-radius: 0; /* Set background radius to 0 to remove rounded corners */
+    -fx-scale-x: 1.1; /* Increase X scale to make the button wider on hover */
+    -fx-scale-y: 1.1; /* Increase Y scale to make the button taller on hover */
+}
+
+/* Define a style for the pressed state of the button */
+.button:pressed {
+    -fx-background-color: #3e0303; /* Darker color when pressed */
+    -fx-scale-x: 0.9; /* Decrease X scale to make the button narrower when pressed */
+    -fx-scale-y: 0.9; /* Decrease Y scale to make the button shorter when pressed */
+}
