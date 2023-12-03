@@ -70,4 +70,6 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
       return this.username;
    }
 
+
+
 }

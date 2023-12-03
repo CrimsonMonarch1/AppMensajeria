@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 public class VentanaNotifController {
@@ -29,9 +31,21 @@ public class VentanaNotifController {
     @FXML
     private Label friendsCounter;
 
+    @FXML
+    private Button botonAnadirAmigo;
+
+    @FXML
+    private Button botonEliminarAmigo;
+
+    @FXML
+    private Button botonSolicitud;
+
+
     private CallbackClient cliente;
 
     private CallbackClientImpl clientObj;
+
+
 
     /*
     * En el initialize creamos la caja donde se guardan los amigos actualmente conectados
@@ -141,6 +155,81 @@ public class VentanaNotifController {
     public void setupCliente(CallbackClient cliente) {
         this.cliente = cliente;
         this.clientObj = cliente.getCallbackObj();
+    }
+
+    @FXML
+    void anadirAmigo(ActionEvent event){
+        //Cargamos el archivo xml de la segunda ventana
+
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_enviar.fxml"));
+            Parent root = loader.load();
+            Stage secondStage = new Stage();
+            secondStage.setScene(new Scene(root, 403, 98));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaAnadirController controladorAnadir= loader.getController();
+            controladorAnadir.setUpEnviar(cliente);
+
+            //Mostramos el menu principal
+            secondStage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    void eliminarAmigo(ActionEvent event){
+        //Cargamos el archivo xml de la segunda ventana
+
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_eliminar.fxml"));
+            Parent root = loader.load();
+            Stage secondStage = new Stage();
+            secondStage.setScene(new Scene(root, 403, 98));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaEliminarController controladorAnadir= loader.getController();
+            controladorAnadir.setUpEnviar(cliente);
+
+            //Mostramos el menu principal
+            secondStage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    void solicitudAmistad(ActionEvent event){
+        //Cargamos el archivo xml de la segunda ventana
+
+        try {
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_solicitudes.fxml"));
+            Parent root = loader.load();
+            Stage solicitudStage = new Stage();
+            solicitudStage.setScene(new Scene(root, 223, 303));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaSolicitudesController controladorSolicitud= loader.getController();
+
+            solicitudStage.setTitle("Solicitudes de amistad");
+
+            controladorSolicitud.setUpSolicitud(cliente);
+            //Pasamos el controlador del menu principal al cliente
+            cliente.setSolicitudesAmistad(controladorSolicitud);
+
+            cliente.anadirSolicitudes();
+
+            //Mostramos el menu principal
+            solicitudStage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

@@ -3,7 +3,10 @@ package net.adriansergio.appmensajeria;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.concurrent.CountDownLatch;
+import java.util.ArrayList;
 
 
 public class CallbackClient extends Thread {
@@ -11,6 +14,9 @@ public class CallbackClient extends Thread {
   private String nombreUsuario;
 
   private String password;
+
+  private ArrayList<String> solicitudesAmistad;
+
 
   private CallbackClientInterface callbackObj;
 
@@ -21,6 +27,8 @@ public class CallbackClient extends Thread {
   private VentanaNotifController controladorMenu;
 
   private VentanaLoginController controladorLogin;
+
+  private VentanaSolicitudesController controladorSolicitudes;
 
   public CallbackClient(String nombreUsuario, String password, VentanaLoginController controladorLogin, boolean login){
     this.nombreUsuario = nombreUsuario;
@@ -46,6 +54,7 @@ public class CallbackClient extends Thread {
         controladorLogin.ventanaError("Contraseña del usuario mal introducidos.");
       }
       else{
+        this.solicitudesAmistad=h.consultarSolicitudesAmistad(this.nombreUsuario);
         controladorLogin.logear();
       }
     }
@@ -124,4 +133,87 @@ public class CallbackClient extends Thread {
   public void setControladorMenu(VentanaNotifController controladorMenu) {
     this.controladorMenu = controladorMenu;
   }
+
+  public void setSolicitudesAmistad(VentanaSolicitudesController controladorSolicitudes){this.controladorSolicitudes= controladorSolicitudes;}
+
+  public void enviarSolicitudAmistad(String username){
+    try {
+      if(h.usuarioNoExistente(username)) {
+        controladorLogin.ventanaError("Usuario no existente");
+      }
+      else {
+          //Añadir en base de datos solicitudes de amistad
+        if(!h.enviarSolicitudAmistad(nombreUsuario, username)){
+          controladorLogin.ventanaError("Este usuario ya es tu amigo.");
+        }
+        ArrayList<String> solicitudes = h.consultarSolicitudesAmistad(nombreUsuario);
+        if(solicitudes.contains(username)){
+          controladorLogin.ventanaError("Ya tienes una solicitud de amistad de este usuario. Acéptala");
+        }
+      }
+
+    } catch (RemoteException e) {
+      throw new RuntimeException(e);
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+
+  }
+
+  public void eliminarAmigo(String username){
+    try {
+      ArrayList<String> amigos;
+      if(h.usuarioNoExistente(username)) {
+        controladorLogin.ventanaError("Usuario no existente");
+      }
+      else {
+        amigos=h.consultarAmigos(nombreUsuario);
+        if(amigos.contains(username)){
+          h.eliminarAmigo(nombreUsuario, username);
+          callbackObj.removeOnlineFriend(username, callbackObj);
+        }
+        else{
+          controladorLogin.ventanaError("No tienes ningún amigo con ese nombre.");
+        }
+      }
+
+    } catch (RemoteException e) {
+      throw new RuntimeException(e);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+
+
+
+  public void anadirSolicitudes(){
+    for (String username: solicitudesAmistad){
+      System.out.println(username);
+      controladorSolicitudes.anadirSolicitudes(username);
+    }
+  }
+
+  public void aceptarSolicitudes(String amigo){
+    try {
+      h.aceptarAmistad(nombreUsuario, amigo);
+      h.eliminarSolicitudAmistad(amigo, nombreUsuario);
+      callbackObj.addOnlineFriend(amigo, callbackObj);
+    } catch (RemoteException e) {
+      throw new RuntimeException(e);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void rechazarSolicitudes(String amigo){
+    try {
+      h.eliminarSolicitudAmistad(amigo, nombreUsuario);
+    } catch (RemoteException e) {
+      throw new RuntimeException(e);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 }

@@ -101,14 +101,17 @@ public class VentanaLoginController {
      * */
     @FXML
     void register(ActionEvent event){
-        if(usernameTx.getText() != null && passwordTx.getText() != null){
+        if(usernameTx.getText() != null && passwordTx.getText().length()>4){
 
             cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this);
             usernameTx.setText(null);
             passwordTx.setText(null);
         }
+        else if (usernameTx.getText()==null){
+            ventanaError("Se debe introducir nombre de usuario");
+        }
         else{
-            ventanaError("No se ha introducito usuario o contraseña.");
+            ventanaError("Contraseña no válida. Mínimo 5 caracteres.");
         }
     }
 
