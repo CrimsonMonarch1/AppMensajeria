@@ -1,0 +1,11 @@
+/* Define a style for the button */
+.button {
+    -fx-background-color: rgba(0, 0, 0, 0.8); /* Black background with 80% transparency */
+    -fx-text-fill: white; /* White text color */
+    -fx-background-radius: 0; /* Set background radius to 0 to remove rounded corners */
+    -fx-cursor: hand; /* Optional: Change cursor on hover to indicate interactivity */
+    -fx-transition: all 0.2s; /* Optional: Add a transition for a smooth effect */
+    -fx-alignment: center; /* Center the text horizontally and vertically */
+    -fx-font-family: Timmana;
+    -fx-font-size: 17px;
+}

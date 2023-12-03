@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="p2p@localhost" uuid="28b2aa50-8815-423a-baec-7267b664e0f5">
+    <data-source source="LOCAL" name="messageapp_db@localhost" uuid="5380d552-4771-4249-8434-9e8113c2f61d">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/p2p</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/messageapp_db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

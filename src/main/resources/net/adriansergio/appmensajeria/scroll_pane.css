@@ -1,0 +1,4 @@
+/* Define a style for the normal state of the scroll pane */
+#friendList {
+    -fx-control-inner-background: rgba(0, 0, 0, 0.6); /* Dark and semi-transparent background */
+}

@@ -4,11 +4,21 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="659.0" prefWidth="517.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="net.adriansergio.appmensajeria.VentanaChatController">
+<Pane fx:id="chat_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="504.0" stylesheets="@pane_chat.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.adriansergio.appmensajeria.VentanaChatController">
    <children>
-      <TextArea fx:id="chatPane" editable="false" layoutX="28.0" layoutY="78.0" prefHeight="504.0" prefWidth="462.0" />
-      <TextField fx:id="messageTx" layoutX="28.0" layoutY="606.0" prefHeight="24.0" prefWidth="343.0" promptText="Escriba su mensaje..." />
-      <Button fx:id="sendButton" layoutX="407.0" layoutY="606.0" mnemonicParsing="false" onAction="#sendMessage" text="Enviar" />
+      <TextArea fx:id="chatPane" blendMode="SCREEN" editable="false" layoutX="21.0" layoutY="20.0" opacity="0.6" prefHeight="504.0" prefWidth="462.0" stylesheets="@text_area_chat.css">
+         <font>
+            <Font name="Timmana Regular" size="16.0" />
+         </font></TextArea>
+      <TextField fx:id="messageTx" layoutX="21.0" layoutY="543.0" prefHeight="24.0" prefWidth="343.0" promptText="Escriba su mensaje..." stylesheets="@text_fields_menu_login.css">
+         <font>
+            <Font name="Timmana Regular" size="17.0" />
+         </font></TextField>
+      <Button fx:id="sendButton" layoutX="410.0" layoutY="540.0" mnemonicParsing="false" onAction="#sendMessage" stylesheets="@boton_menu_login.css" text="Enviar">
+         <font>
+            <Font name="Timmana Regular" size="19.0" />
+         </font></Button>
    </children>
 </Pane>
