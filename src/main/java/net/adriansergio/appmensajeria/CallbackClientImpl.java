@@ -16,6 +16,8 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
 
    private String username;
 
+   private HashMap<String, String> conversations;
+
    public CallbackClientImpl(VentanaNotifController controladorMenu, String username) throws RemoteException {
       super();
       amigos = new HashMap<>();
@@ -61,13 +63,25 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
       updateChat(sender, message);
    }
 
-   public void updateChat(String amigoName, String message){
+   private void updateChat(String amigoName, String message){
       if(ventanasChat.get(amigoName) != null)
-         ventanasChat.get(amigoName).updateChat(amigoName, message);
+         ventanasChat.get(amigoName).updateChat(message);
    }
 
    public String getUsername(){
       return this.username;
    }
 
+   public String getConversation(String friendName){
+      return conversations.get(friendName);
+   }
+
+   public void setConversation(String friendName, String chat){
+      if(conversations.get(friendName) != null){
+         conversations.replace(friendName, chat);
+      }
+      else{
+         conversations.put(friendName,chat);
+      }
+   }
 }

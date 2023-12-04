@@ -29,6 +29,15 @@ public class VentanaNotifController {
     @FXML
     private Label friendsCounter;
 
+    @FXML
+    private Button botonEnviarSolicitud;
+
+    @FXML
+    private Button botonSolicitud;
+
+    @FXML
+    private Button botonEliminar;
+
     private CallbackClient cliente;
 
     private CallbackClientImpl clientObj;
@@ -141,6 +150,79 @@ public class VentanaNotifController {
     public void setupCliente(CallbackClient cliente) {
         this.cliente = cliente;
         this.clientObj = cliente.getCallbackObj();
+    }
+
+    @FXML
+    void eliminarAmigo(ActionEvent event) {
+        try{
+            //Cargamos el archivo xml de la ventana de chat
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_eliminar.fxml"));
+            Parent root = loader.load();
+
+            //Creamos un stage nuevo
+            Stage eliminarStage = new Stage();
+            eliminarStage.setScene(new Scene(root, 403, 98));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaEliminarController controladorEliminar= loader.getController();
+
+            controladorEliminar.setUpEnviar(cliente);
+
+            //Mostramos el menu principal
+            eliminarStage.show();
+        }
+        catch (Exception e){}
+    }
+
+    @FXML
+    void solicitudesAmistad(ActionEvent event) {
+        try{
+            //Cargamos el archivo xml de la ventana de chat
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_solicitudes.fxml"));
+            Parent root = loader.load();
+
+            //Creamos un stage nuevo
+            Stage solicitudesStage = new Stage();
+            solicitudesStage.setScene(new Scene(root, 223, 303));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaSolicitudesController controladorSolicitudes= loader.getController();
+
+            controladorSolicitudes.setUpSolicitud(cliente);
+
+            cliente.setSolicitudesAmistad(controladorSolicitudes);
+
+            cliente.anadirSolicitudes();
+
+            //Mostramos el menu principal
+            solicitudesStage.show();
+        }
+        catch (Exception e){}
+    }
+
+    @FXML
+    void enviarSolicitud(ActionEvent event) {
+        try{
+            //Cargamos el archivo xml de la ventana de chat
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_enviar.fxml"));
+            Parent root = loader.load();
+
+            //Creamos un stage nuevo
+            Stage solicitudesStage = new Stage();
+            solicitudesStage.setScene(new Scene(root, 403, 98));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaAnadirController controladorAnadir= loader.getController();
+
+            controladorAnadir.setUpEnviar(cliente);
+
+            //Mostramos el menu principal
+            solicitudesStage.show();
+        }
+        catch (Exception e){}
     }
 }
 
