@@ -17,7 +17,6 @@ public class CallbackClient extends Thread {
 
   private ArrayList<String> solicitudesAmistad;
 
-
   private CallbackClientInterface callbackObj;
 
   private CallbackServerInterface h;
@@ -54,7 +53,6 @@ public class CallbackClient extends Thread {
         controladorLogin.ventanaError("Contraseña del usuario mal introducidos.");
       }
       else{
-        this.solicitudesAmistad=h.consultarSolicitudesAmistad(this.nombreUsuario);
         controladorLogin.logear();
       }
     }
@@ -102,6 +100,7 @@ public class CallbackClient extends Thread {
         controladorMenu.setupCliente(this);
         //Creeo objeto cliente para interactuar con el servidor
         callbackObj = new CallbackClientImpl(controladorMenu, nombreUsuario);
+        controladorMenu.setupCliente(this);
         //Conectarse al servicio
         h.conectarse(callbackObj, nombreUsuario);
         System.out.println("Cliente: conectado.");
@@ -169,8 +168,10 @@ public class CallbackClient extends Thread {
       else {
         amigos=h.consultarAmigos(nombreUsuario);
         if(amigos.contains(username)){
+          CallbackClientInterface cliente = h.obtenerUsuario(username);
           h.eliminarAmigo(nombreUsuario, username);
-          callbackObj.removeOnlineFriend(username, callbackObj);
+          callbackObj.removeOnlineFriend(username, cliente);
+          cliente.removeOnlineFriend(nombreUsuario, callbackObj);
         }
         else{
           controladorLogin.ventanaError("No tienes ningún amigo con ese nombre.");
@@ -185,20 +186,29 @@ public class CallbackClient extends Thread {
 
   }
 
-
-
   public void anadirSolicitudes(){
-    for (String username: solicitudesAmistad){
-      System.out.println(username);
-      controladorSolicitudes.anadirSolicitudes(username);
+    try {
+      solicitudesAmistad= h.consultarSolicitudesAmistad(nombreUsuario);
+      for (String username: solicitudesAmistad){
+        System.out.println(username);
+        controladorSolicitudes.anadirSolicitudes(username);
+      }
+    } catch (RemoteException e) {
+      throw new RuntimeException(e);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
     }
+
   }
 
   public void aceptarSolicitudes(String amigo){
     try {
+      CallbackClientInterface cliente = h.obtenerUsuario(amigo);
       h.aceptarAmistad(nombreUsuario, amigo);
       h.eliminarSolicitudAmistad(amigo, nombreUsuario);
-      callbackObj.addOnlineFriend(amigo, callbackObj);
+      callbackObj.addOnlineFriend(amigo, cliente);
+      cliente.addOnlineFriend(nombreUsuario, callbackObj);
+      cliente.mensajeServidor(nombreUsuario+" aceptó tu solicitud de amistad");
     } catch (RemoteException e) {
       throw new RuntimeException(e);
     } catch (SQLException e) {
@@ -208,7 +218,9 @@ public class CallbackClient extends Thread {
 
   public void rechazarSolicitudes(String amigo){
     try {
+
       h.eliminarSolicitudAmistad(amigo, nombreUsuario);
+
     } catch (RemoteException e) {
       throw new RuntimeException(e);
     } catch (SQLException e) {

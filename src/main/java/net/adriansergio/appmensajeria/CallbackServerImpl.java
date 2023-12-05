@@ -355,4 +355,8 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
 
 
     }
+
+    public CallbackClientInterface obtenerUsuario(String usuario)  throws RemoteException{
+       return usuariosOnline.get(usuario);
+    }
 }
