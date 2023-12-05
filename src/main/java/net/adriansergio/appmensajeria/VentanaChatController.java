@@ -51,7 +51,7 @@ public class VentanaChatController {
     }
 
     /*
-     * Función que actua como setter para que este controlador tenga las referencias adecuadas
+     * FunciÃ³n que actua como setter para que este controlador tenga las referencias adecuadas
      * */
     public void setupChat(CallbackClientImpl cliente, CallbackClientInterface amigo, String amigoName) {
         try {

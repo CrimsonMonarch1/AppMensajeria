@@ -127,6 +127,7 @@ public class VentanaLoginController {
     @FXML
     void register(ActionEvent event){
         if(usernameTx.getText() != null && passwordTx.getText().length() > 4){
+
             cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this);
             usernameTx.setText(null);
             passwordTx.setText(null);

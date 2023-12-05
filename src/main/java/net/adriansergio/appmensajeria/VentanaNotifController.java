@@ -11,14 +11,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.util.Iterator;
-import java.util.Random;
 
 public class VentanaNotifController {
 
@@ -33,7 +30,13 @@ public class VentanaNotifController {
     private Label friendsCounter;
 
     @FXML
-    private Pane panel_notif;
+    private Button botonEnviarSolicitud;
+
+    @FXML
+    private Button botonSolicitud;
+
+    @FXML
+    private Button botonEliminar;
 
     private CallbackClient cliente;
 
@@ -96,9 +99,6 @@ public class VentanaNotifController {
                     openChatWindow(username, clientObj.obtenerAmigo(username));
                 }
             });
-            button.getStylesheets().add(getClass().getResource("friend_button.css").toExternalForm());
-
-
             caja.getChildren().add(button);
         }
         else{
@@ -124,13 +124,12 @@ public class VentanaNotifController {
 
             //Creamos un stage nuevo
             Stage chatStage = new Stage();
-            chatStage.setScene(new Scene(root, 504, 608));
+            chatStage.setScene(new Scene(root, 500, 700));
             chatStage.setTitle("Chat con " + amigoName);
 
             //Creamos un nuevo controller y le pasamos el cliente
             VentanaChatController controladorChat= loader.getController();
             controladorChat.setupChat(clientObj, amigo, amigoName);
-            chatStage.setOnCloseRequest(CloseEvent -> controladorChat.handleCloseRequest(CloseEvent, amigoName));
 
             //Mostramos el menu principal
             chatStage.show();
@@ -151,6 +150,79 @@ public class VentanaNotifController {
     public void setupCliente(CallbackClient cliente) {
         this.cliente = cliente;
         this.clientObj = cliente.getCallbackObj();
+    }
+
+    @FXML
+    void eliminarAmigo(ActionEvent event) {
+        try{
+            //Cargamos el archivo xml de la ventana de chat
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_eliminar.fxml"));
+            Parent root = loader.load();
+
+            //Creamos un stage nuevo
+            Stage eliminarStage = new Stage();
+            eliminarStage.setScene(new Scene(root, 403, 98));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaEliminarController controladorEliminar= loader.getController();
+
+            controladorEliminar.setUpEnviar(cliente);
+
+            //Mostramos el menu principal
+            eliminarStage.show();
+        }
+        catch (Exception e){}
+    }
+
+    @FXML
+    void solicitudesAmistad(ActionEvent event) {
+        try{
+            //Cargamos el archivo xml de la ventana de chat
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_solicitudes.fxml"));
+            Parent root = loader.load();
+
+            //Creamos un stage nuevo
+            Stage solicitudesStage = new Stage();
+            solicitudesStage.setScene(new Scene(root, 223, 303));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaSolicitudesController controladorSolicitudes= loader.getController();
+
+            controladorSolicitudes.setUpSolicitud(cliente);
+
+            cliente.setSolicitudesAmistad(controladorSolicitudes);
+
+            cliente.anadirSolicitudes();
+
+            //Mostramos el menu principal
+            solicitudesStage.show();
+        }
+        catch (Exception e){}
+    }
+
+    @FXML
+    void enviarSolicitud(ActionEvent event) {
+        try{
+            //Cargamos el archivo xml de la ventana de chat
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_enviar.fxml"));
+            Parent root = loader.load();
+
+            //Creamos un stage nuevo
+            Stage solicitudesStage = new Stage();
+            solicitudesStage.setScene(new Scene(root, 403, 98));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaAnadirController controladorAnadir= loader.getController();
+
+            controladorAnadir.setUpEnviar(cliente);
+
+            //Mostramos el menu principal
+            solicitudesStage.show();
+        }
+        catch (Exception e){}
     }
 }
 

@@ -14,9 +14,9 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
 
    private HashMap<String, VentanaChatController> ventanasChat;
 
-   private HashMap<String, String> conversations;
-
    private String username;
+
+   private HashMap<String, String> conversations;
 
    public CallbackClientImpl(VentanaNotifController controladorMenu, String username) throws RemoteException {
       super();
@@ -25,7 +25,6 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
       this.controladorMenu = controladorMenu;
       this.username = username;
       ventanasChat = new HashMap<>();
-      conversations = new HashMap<>();
    }
 
    public void mensajeServidor(String message) {
@@ -47,6 +46,10 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
       }
    }
 
+   private void mostrarMensaje(String message){
+
+   }
+
    public void addChat(String amigo, VentanaChatController controlador){
       ventanasChat.put(amigo, controlador);
    }
@@ -57,9 +60,6 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
 
    public void mensajeCliente(String sender, String message) throws java.rmi.RemoteException {
       System.out.println(message);
-      String convo = "";
-      convo = conversations.get(sender) + message;
-      conversations.put(sender, convo);
       updateChat(sender, message);
    }
 
@@ -84,5 +84,4 @@ public class CallbackClientImpl extends UnicastRemoteObject implements CallbackC
          conversations.put(friendName,chat);
       }
    }
-
 }
