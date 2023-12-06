@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 
 public class VentanaSiNoController{
 
@@ -18,6 +19,9 @@ public class VentanaSiNoController{
 
     @FXML
     private Button botonRechazar;
+
+    @FXML
+    private Pane panel;
 
     public void setUpSolicitud(CallbackClient cliente){
         this.cliente=cliente;

@@ -4,11 +4,18 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="403.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.adriansergio.appmensajeria.VentanaAnadirController">
+<Pane fx:id="panel" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="98.0" prefWidth="403.0" stylesheets="@paneles_amistad.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.adriansergio.appmensajeria.VentanaAnadirController">
    <children>
-      <TextField fx:id="textoUsuario" layoutX="31.0" layoutY="49.0" prefHeight="24.0" prefWidth="258.0" promptText="Nome de usuario" />
-      <Button fx:id="botonEnviar" layoutX="317.0" layoutY="49.0" mnemonicParsing="false" onAction="#enviarSolicitud" text="Enviar" />
-      <Label layoutX="31.0" layoutY="24.0" prefHeight="16.0" prefWidth="210.0" text="Enviar solicitud de amistad" />
+      <TextField fx:id="textoUsuario" layoutX="31.0" layoutY="44.0" prefHeight="24.0" prefWidth="258.0" promptText="Nome de usuario" stylesheets="@text_fields_menu_login.css">
+         <font>
+            <Font name="Timmana Regular" size="13.0" />
+         </font></TextField>
+      <Button fx:id="botonEnviar" layoutX="317.0" layoutY="41.0" mnemonicParsing="false" onAction="#enviarSolicitud" stylesheets="@friend_button.css" text="Enviar" />
+      <Label layoutX="31.0" layoutY="10.0" prefHeight="16.0" prefWidth="210.0" text="Enviar solicitud de amistad" textFill="WHITE">
+         <font>
+            <Font name="Timmana Regular" size="18.0" />
+         </font></Label>
    </children>
 </Pane>

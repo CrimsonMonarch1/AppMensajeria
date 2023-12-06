@@ -8,7 +8,7 @@
 
 <Pane fx:id="chat_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="608.0" prefWidth="504.0" stylesheets="@pane_chat.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.adriansergio.appmensajeria.VentanaChatController">
    <children>
-      <TextArea fx:id="chatPane" blendMode="SCREEN" editable="false" layoutX="21.0" layoutY="20.0" opacity="0.6" prefHeight="504.0" prefWidth="462.0" stylesheets="@text_area_chat.css">
+      <TextArea fx:id="chatPane" blendMode="SCREEN" editable="false" layoutX="21.0" layoutY="20.0" prefHeight="504.0" prefWidth="462.0" stylesheets="@text_area_notif.css">
          <font>
             <Font name="Timmana Regular" size="16.0" />
          </font></TextArea>

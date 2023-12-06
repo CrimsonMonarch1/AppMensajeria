@@ -2,6 +2,7 @@ package net.adriansergio.appmensajeria;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -65,6 +66,7 @@ public class VentanaLoginController {
 
     @FXML
     void exit(ActionEvent event) {
+        ((Node)(event.getSource())).getScene().getWindow().hide();
     }
 
     /*
@@ -74,15 +76,16 @@ public class VentanaLoginController {
     @FXML
     void login(ActionEvent event) {
         if(usernameTx.getText() != null && passwordTx.getText() != null){
-                cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this, true);
-                passwordTx.setText(null);
+            cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this, true);
+            cliente.logearCliente(event);
+            passwordTx.setText(null);
         }
         else{
             ventanaError("Falta usuario o contraseña");
         }
     }
 
-    void logear(){
+    void logear(ActionEvent event){
         try {
             //Cargamos el archivo xml de la segunda ventana
             FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_notif.fxml"));
@@ -110,10 +113,10 @@ public class VentanaLoginController {
                 //Mostramos el menu principal
                 secondStage.show();
 
-            });
+                //Escondemos la ventana actual
+                ((Node)(event.getSource())).getScene().getWindow().hide();
 
-            //Escondemos la ventana actual
-            //((Node)(event.getSource())).getScene().getWindow().hide();---------------------------------------------------
+            });
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -128,7 +131,7 @@ public class VentanaLoginController {
     void register(ActionEvent event){
         if(usernameTx.getText() != null && passwordTx.getText().length() > 4){
 
-            cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this);
+            cliente = new CallbackClient(usernameTx.getText(), passwordTx.getText(), this, false);
             usernameTx.setText(null);
             passwordTx.setText(null);
         }

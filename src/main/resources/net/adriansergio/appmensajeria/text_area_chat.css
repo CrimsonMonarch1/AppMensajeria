@@ -1,9 +1,10 @@
 /* Define a style for the normal state of the text area */
 .text-area {
-    -fx-background: rgba(0, 0, 0, 0.6); /* Dark and semi-transparent background */
+    -fx-control-inner-background: rgba(0, 0, 0, 0.8); /* Dark and semi-transparent background */
 }
 
 /* Define a style for the text inside the text area */
 .text-area .text {
-    -fx-fill: black; /* White text color */
+    -fx-fill: white; /* White text color */
+    -fx-font-family: Timmana;
 }

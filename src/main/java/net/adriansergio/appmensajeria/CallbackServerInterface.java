@@ -34,4 +34,6 @@ public interface CallbackServerInterface extends Remote {
   public void eliminarSolicitudAmistad(String nome1, String nome2) throws RemoteException, SQLException;
 
   public ArrayList<String> consultarAmigos(String nome1) throws RemoteException, SQLException;
+
+  public void cambiarContrasena(String username, String contrasena) throws RemoteException, SQLException;
 }
