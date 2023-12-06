@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -20,8 +21,13 @@ public class VentanaSolicitudesController {
 
     private CallbackClient cliente;
     private VBox caja;
+
     @FXML
     private ScrollPane panelSolicitudes;
+
+    @FXML
+    private Pane panel;
+
 
     /*
      * En el initialize creamos la caja donde se guardan los amigos actualmente conectados
@@ -38,6 +44,10 @@ public class VentanaSolicitudesController {
     public void anadirSolicitudes(String username){
         Platform.runLater(()-> {
             Button button = new Button(username);
+            button.setStyle(
+                    "-fx-background-color: #000000;" +
+                            "-fx-text-fill: white;" +
+                            "-fx-min-width: 50px");
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {

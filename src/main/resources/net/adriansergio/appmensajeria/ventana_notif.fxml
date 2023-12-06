@@ -7,37 +7,53 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="679.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.adriansergio.appmensajeria.VentanaNotifController">
+<Pane fx:id="panel_notif" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="679.0" stylesheets="@pane_notif.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.adriansergio.appmensajeria.VentanaNotifController">
    <children>
-      <ScrollPane fx:id="friendList" layoutX="487.0" layoutY="131.0" prefHeight="304.0" prefWidth="178.0" />
-      <Label layoutX="29.0" layoutY="26.0" text="Mensajes del sistema">
+      <ScrollPane fx:id="friendList" blendMode="DARKEN" depthTest="DISABLE" layoutX="487.0" layoutY="115.0" prefHeight="304.0" prefWidth="178.0" />
+      <Label layoutX="20.0" layoutY="3.0" text="Mensajes del sistema" textFill="WHITE">
          <font>
-            <Font name="Ubuntu" size="22.0" />
+            <Font name="Timmana Regular" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="493.0" layoutY="26.0" text="Amigos">
+      <Label layoutX="487.0" layoutY="6.0" prefHeight="48.0" prefWidth="68.0" text="Amigos" textFill="WHITE">
          <font>
-            <Font name="Ubuntu" size="22.0" />
+            <Font name="Timmana Regular" size="22.0" />
          </font>
       </Label>
-      <TextArea fx:id="log" editable="false" layoutX="20.0" layoutY="65.0" prefHeight="370.0" prefWidth="442.0" />
-      <Label layoutX="493.0" layoutY="53.0" text="Online">
+      <TextArea fx:id="log" editable="false" layoutX="20.0" layoutY="49.0" prefHeight="370.0" prefWidth="442.0" stylesheets="@text_area_notif.css">
          <font>
-            <Font name="Ubuntu" size="16.0" />
+            <Font name="Timmana Regular" size="13.0" />
+         </font></TextArea>
+      <Label layoutX="561.0" layoutY="13.0" text="Online" textFill="WHITE">
+         <font>
+            <Font name="Timmana Regular" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="493.0" layoutY="72.0" text="Offline">
+      <Label layoutX="559.0" layoutY="49.0" text="Offline" textFill="WHITE">
          <font>
-            <Font name="Ubuntu" size="16.0" />
+            <Font name="Timmana Regular" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="friendsCounter" layoutX="552.0" layoutY="53.0" text="0">
+      <Label fx:id="friendsCounter" layoutX="607.0" layoutY="13.0" text="0" textFill="WHITE">
          <font>
-            <Font name="Ubuntu" size="16.0" />
+            <Font name="Timmana Regular" size="15.0" />
          </font>
       </Label>
-      <Button fx:id="botonSolicitud" layoutX="20.0" layoutY="453.0" mnemonicParsing="false" onAction="#solicitudesAmistad" prefHeight="24.0" prefWidth="178.0" text="Solicitudes de Amistad" />
-      <Button fx:id="botonEnviarSolicitud" layoutX="259.0" layoutY="453.0" mnemonicParsing="false" onAction="#enviarSolicitud" prefHeight="24.0" prefWidth="178.0" text="Añadir Amigo" />
-      <Button fx:id="botonEliminar" layoutX="483.0" layoutY="453.0" mnemonicParsing="false" onAction="#eliminarAmigo" prefHeight="24.0" prefWidth="178.0" text="Eliminar Amigo" />
+      <Button fx:id="botonSolicitud" layoutX="20.0" layoutY="436.0" mnemonicParsing="false" onAction="#solicitudesAmistad" prefHeight="33.0" prefWidth="178.0" stylesheets="@friend_button.css" text="Solicitudes de Amistad">
+         <font>
+            <Font size="12.0" />
+         </font></Button>
+      <Button fx:id="botonEnviarSolicitud" layoutX="395.0" layoutY="436.0" mnemonicParsing="false" onAction="#enviarSolicitud" prefHeight="41.0" prefWidth="104.0" stylesheets="@friend_button.css" text="Añadir Amigo" />
+      <Button fx:id="botonEliminar" layoutX="535.0" layoutY="436.0" mnemonicParsing="false" onAction="#eliminarAmigo" prefHeight="41.0" prefWidth="130.0" stylesheets="@friend_button.css" text="Eliminar Amigo" />
+      <Label layoutX="489.0" layoutY="82.0" text="Actualmente conectados" textFill="WHITE">
+         <font>
+            <Font name="Timmana Regular" size="15.0" />
+         </font>
+      </Label>
+      <Button fx:id="botonCambiarContrasena" layoutX="219.0" layoutY="436.0" mnemonicParsing="false" onAction="#cambiarContrasena" prefHeight="41.0" prefWidth="130.0" stylesheets="@friend_button.css" text="Cambiar contraseña">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

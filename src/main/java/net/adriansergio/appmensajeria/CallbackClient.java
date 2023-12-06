@@ -1,5 +1,7 @@
 package net.adriansergio.appmensajeria;
 
+import javafx.event.ActionEvent;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.rmi.Naming;
@@ -44,43 +46,21 @@ public class CallbackClient extends Thread {
       //Busco el objeto servidor al que conectarme
       h = (CallbackServerInterface)Naming.lookup(registryURL);
 
-      if(h.usuarioNoExistente(nombreUsuario)){
-        //Ventanita error regitro
-        controladorLogin.ventanaError("Usuario no registrado.");
-      }
-      else if(!h.inicioSesion(nombreUsuario, password)){
-        //Ventanita error regitro
-        controladorLogin.ventanaError("Contraseña del usuario mal introducidos.");
+      if(login){
+        if(h.usuarioNoExistente(nombreUsuario)){
+          //Ventanita error regitro
+          controladorLogin.ventanaError("Usuario no registrado.");
+        }
+        else if(!h.inicioSesion(nombreUsuario, password)){
+          //Ventanita error regitro
+          controladorLogin.ventanaError("Contraseña del usuario mal introducidos.");
+        }
       }
       else{
-        controladorLogin.logear();
-      }
-    }
-    catch (Exception e) {
-      System.out.println("Exception in CallbackClient: " + e);
-      e.printStackTrace();
-    }
-
-  }
-
-  public CallbackClient(String nombreUsuario, String password, VentanaLoginController controladorLogin){
-    this.nombreUsuario = nombreUsuario;
-    this.password = password;
-    this.controladorLogin= controladorLogin;
-    try {
-      int RMIPort;
-      String hostName;
-      //Lector de input
-      InputStreamReader is = new InputStreamReader(System.in);
-      BufferedReader br = new BufferedReader(is);
-      //El enlace lo he hardcodeado porque en una app real el cliente simplemente se conecta y ya
-      String registryURL = "rmi://localhost:6789/callback";
-      //Busco el objeto servidor al que conectarme
-      h = (CallbackServerInterface)Naming.lookup(registryURL);
-
-      if(!h.introducirUsuarios(nombreUsuario, password)){
-        //Ventanita error regitro
-        controladorLogin.ventanaError("Usuario ya registrado.");
+        if(!h.introducirUsuarios(nombreUsuario, password)){
+          //Ventanita error regitro
+          controladorLogin.ventanaError("Usuario ya registrado.");
+        }
       }
     }
     catch (Exception e) {
@@ -123,6 +103,10 @@ public class CallbackClient extends Thread {
     catch (Exception e){
       e.printStackTrace();
     }
+  }
+
+  public void logearCliente(ActionEvent event){
+    this.controladorLogin.logear(event);
   }
 
   public CallbackClientImpl getCallbackObj(){
@@ -218,9 +202,24 @@ public class CallbackClient extends Thread {
 
   public void rechazarSolicitudes(String amigo){
     try {
-
       h.eliminarSolicitudAmistad(amigo, nombreUsuario);
+    } catch (RemoteException e) {
+      throw new RuntimeException(e);
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
+  public void cambiarContrasena(String contrasena){
+    try {
+      if (password.equals(contrasena)) {
+
+        controladorLogin.ventanaError("Contraseña nueva y actual iguales");
+      }
+      else{
+        password=contrasena;
+        h.cambiarContrasena(nombreUsuario, password);
+      }
     } catch (RemoteException e) {
       throw new RuntimeException(e);
     } catch (SQLException e) {

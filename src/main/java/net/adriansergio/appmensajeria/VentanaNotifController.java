@@ -4,6 +4,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -11,9 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.kordamp.bootstrapfx.scene.layout.Panel;
 
 import java.util.Iterator;
 
@@ -37,6 +41,12 @@ public class VentanaNotifController {
 
     @FXML
     private Button botonEliminar;
+
+    @FXML
+    private Pane panel_notif;
+
+    @FXML
+    private Button botonCambiarContrasena;
 
     private CallbackClient cliente;
 
@@ -92,6 +102,10 @@ public class VentanaNotifController {
     private void updateFriends(String username, boolean add){
         if(add){
             Button button = new Button(username);
+            button.setStyle(
+                    "-fx-background-color: #000000;" +
+                            "-fx-text-fill: white;" +
+                    "-fx-min-width: 50px");
             button.setOnAction(new EventHandler<ActionEvent>() {
                 @Override
                 public void handle(ActionEvent event) {
@@ -124,17 +138,22 @@ public class VentanaNotifController {
 
             //Creamos un stage nuevo
             Stage chatStage = new Stage();
-            chatStage.setScene(new Scene(root, 500, 700));
+            chatStage.setScene(new Scene(root, 504, 608));
             chatStage.setTitle("Chat con " + amigoName);
 
             //Creamos un nuevo controller y le pasamos el cliente
             VentanaChatController controladorChat= loader.getController();
             controladorChat.setupChat(clientObj, amigo, amigoName);
 
+            chatStage.setOnCloseRequest(CloseEvent -> controladorChat.handleCloseRequest(CloseEvent, amigoName));
+
             //Mostramos el menu principal
             chatStage.show();
         }
-        catch (Exception e){}
+        catch (Exception e){
+            System.out.println("Error al abrir chat");
+            e.printStackTrace();
+        }
     }
 
     /*
@@ -199,7 +218,10 @@ public class VentanaNotifController {
             //Mostramos el menu principal
             solicitudesStage.show();
         }
-        catch (Exception e){}
+        catch (Exception e){
+            System.out.println("Error en crear ventana solicitud");
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -224,5 +246,29 @@ public class VentanaNotifController {
         }
         catch (Exception e){}
     }
+
+    @FXML
+    void cambiarContrasena(ActionEvent event){
+        try{
+            //Cargamos el archivo xml de la ventana de chat
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("ventana_cambiar.fxml"));
+            Parent root = loader.load();
+
+            //Creamos un stage nuevo
+            Stage cambiarStage = new Stage();
+            cambiarStage.setScene(new Scene(root, 240, 211));
+
+
+            //Creamos un nuevo controller y le pasamos el cliente
+            VentanaCambiarController controladorCambiar= loader.getController();
+
+            controladorCambiar.setUpEnviar(cliente);
+
+            //Mostramos el menu principal
+            cambiarStage.show();
+        }
+        catch (Exception e){}
+    }
+
 }
 

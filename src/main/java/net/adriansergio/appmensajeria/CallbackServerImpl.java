@@ -359,4 +359,18 @@ public class CallbackServerImpl extends UnicastRemoteObject implements CallbackS
     public CallbackClientInterface obtenerUsuario(String usuario)  throws RemoteException{
        return usuariosOnline.get(usuario);
     }
+
+    public void cambiarContrasena(String username, String contrasena) throws RemoteException, SQLException{
+        // Consulta SQL para la actualización
+        String consultaSQL = "UPDATE usuarios SET contrasinal = ? WHERE nome = ?";
+
+        // Crear una declaración preparada
+        PreparedStatement statement = conexion.conexion.prepareStatement(consultaSQL);
+        // Establecer los parámetros en la declaración
+        statement.setString(1, contrasena);
+        statement.setString(2, username);
+
+        // Ejecutar la actualización
+        int filasActualizadas = statement.executeUpdate();
+    }
 }

@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
 
 public class VentanaEliminarController {
 
@@ -15,6 +16,9 @@ public class VentanaEliminarController {
 
     @FXML
     private TextField textoUsuario;
+
+    @FXML
+    private Pane panel;
 
     public void setUpEnviar(CallbackClient cliente){
         this.cliente=cliente;
